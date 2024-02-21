@@ -15,4 +15,9 @@ app.get('/items', function(req, res) {
   res.send(list)
 })
 
+app.get('/items/:id', function(req, res) {
+  const id = req.params.id
+  res.send(list[id])
+})
+
 app.listen(3000)
