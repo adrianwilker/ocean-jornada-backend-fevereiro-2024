@@ -20,4 +20,13 @@ app.get('/items/:id', function(req, res) {
   res.send(list[id])
 })
 
+// sinaliza que o corpo da requisição está em json
+app.use(express.json())
+
+app.post('/items', function(req, res) {
+  const name = req.body.name
+  list.push(name)
+  res.send('Item adicionado com sucesso')
+})
+
 app.listen(3000)
