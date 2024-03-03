@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient } = require('mongodb')
+const { MongoClient, Collection } = require('mongodb')
 
 const dbUrl = 'mongodb+srv://adrianwilker:15042001@ocean-jornada-backend-f.sn5cyha.mongodb.net'
 const dbName = 'ocean-jornada-backend-fevereiro-2024'
@@ -7,6 +7,8 @@ const dbName = 'ocean-jornada-backend-fevereiro-2024'
 async function main() {
 
   const client = new MongoClient(dbUrl)
+  const db = client.db(dbName)
+  const collection = db.collection('items')
 
   console.log("Conectando ao banco de dados...")
   await client.connect()
@@ -24,8 +26,9 @@ async function main() {
   
   const list = ['Rick Sanchez', 'Morty Smith', 'Summer Smith']
 
-  app.get('/items', function(req, res) {
-    res.send(list)
+  app.get('/items', async function(req, res) {
+    const items = await collection.find().toArray()
+    res.send(items)
   })
   
   app.get('/items/:id', function(req, res) {
