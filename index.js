@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient, Collection } = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 
 const dbUrl = 'mongodb+srv://adrianwilker:15042001@ocean-jornada-backend-f.sn5cyha.mongodb.net'
 const dbName = 'ocean-jornada-backend-fevereiro-2024'
@@ -31,9 +31,12 @@ async function main() {
     res.send(items)
   })
   
-  app.get('/items/:id', function(req, res) {
+  app.get('/items/:id', async function(req, res) {
     const id = req.params.id
-    res.send(list[id])
+    const item = await collection.findOne({
+      _id: new ObjectId(id)
+    })
+    res.send(item)
   })
 
   // sinaliza que o corpo da requisição está em json
