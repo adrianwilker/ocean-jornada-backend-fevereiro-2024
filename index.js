@@ -55,6 +55,11 @@ async function main() {
     res.send('Item atualizado com sucesso.')
   })
   
+  app.delete('/items/:id', async function(req, res) {
+    collection.deleteOne({ _id: new ObjectId(req.params.id) })
+    res.send('Item removido com sucesso.')
+  })
+  
   app.listen(3000)
 }
 
