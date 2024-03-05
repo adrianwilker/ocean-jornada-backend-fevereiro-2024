@@ -45,6 +45,15 @@ async function main() {
     await collection.insertOne(item)
     res.send(item)
   })
+
+  app.put('/items/:id', async function(req, res) {
+    const newItem = req.body
+    await collection.updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $set: newItem }
+    )
+    res.send('Item atualizado com sucesso.')
+  })
   
   app.listen(3000)
 }
