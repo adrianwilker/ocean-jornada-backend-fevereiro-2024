@@ -8,7 +8,7 @@ async function main() {
 
   const client = new MongoClient(dbUrl)
   const db = client.db(dbName)
-  const collection = db.collection('items')
+  const collection = db.collection('animals')
 
   console.log("Conectando ao banco de dados...")
   await client.connect()
@@ -23,8 +23,6 @@ async function main() {
   app.get('/oi', function(req, res) {
     res.send('Olá, mundo!')
   })
-  
-  const list = ['Rick Sanchez', 'Morty Smith', 'Summer Smith']
 
   app.get('/items', async function(req, res) {
     const items = await collection.find().toArray()
@@ -42,10 +40,10 @@ async function main() {
   // sinaliza que o corpo da requisição está em json
   app.use(express.json())
 
-  app.post('/items', function(req, res) {
-    const item = req.body.name
-    list.push(item)
-    res.send('Item adicionado com sucesso')
+  app.post('/items', async function(req, res) {
+    const item = req.body
+    await collection.insertOne(item)
+    res.send(item)
   })
   
   app.listen(3000)
